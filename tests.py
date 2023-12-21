@@ -1,6 +1,7 @@
 import unittest
 from abc import ABC, abstractmethod
 from pydantic import BaseModel
+
 from class_property import class_property
 
 
@@ -8,7 +9,6 @@ class TestClassProperties(unittest.TestCase):
     def test_regular_implementation_and_not_implemented(self):
         class Base(ABC):
             @class_property
-            @abstractmethod
             def metadata(cls) -> str:
                 raise NotImplementedError
 

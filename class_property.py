@@ -16,7 +16,9 @@ class _ClassProperty(property, Generic[T]):
         return function.__code__.co_varnames == self.ARGUMENTS
 
     def __get__(self, _, owner=None) -> T:
-        return self.function(owner)
+        if owner:
+            return self.function(owner)
+        raise TypeError("Owner must not be None (unreachable).")
 
 
 class_property = _ClassProperty
