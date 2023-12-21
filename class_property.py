@@ -1,0 +1,22 @@
+from typing import TypeVar, Generic, Callable, Tuple
+
+T = TypeVar("T")
+
+
+class _ClassProperty(property, Generic[T]):
+    ARGUMENTS: Tuple[str] = ("cls",)
+
+    def __init__(self, function: Callable[..., T]) -> None:
+        super().__init__()
+        if not self._is_validated(function):
+            raise ValueError("Unexpected arguments.")
+        self.function = function
+
+    def _is_validated(self, function: Callable[..., T]) -> bool:
+        return function.__code__.co_varnames == self.ARGUMENTS
+
+    def __get__(self, _, owner=None) -> T:
+        return self.function(owner)
+
+
+class_property = _ClassProperty
