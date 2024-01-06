@@ -6,7 +6,7 @@ T = TypeVar("T")
 
 
 class _ClassProperty(property, Generic[T]):
-    ARGUMENTS: Tuple[str] = ("cls",)
+    PARAMETERS: Tuple[str] = ("cls",)
 
     def __init__(self, function: Callable[..., T]) -> None:
         super().__init__()
@@ -15,7 +15,7 @@ class _ClassProperty(property, Generic[T]):
         self.function = function
 
     def _is_validated(self, function: Callable[..., T]) -> bool:
-        return tuple(inspect.signature(function).parameters) == self.ARGUMENTS
+        return tuple(inspect.signature(function).parameters) == self.PARAMETERS
 
     def __get__(self, _, owner=None) -> T:
         if owner:
