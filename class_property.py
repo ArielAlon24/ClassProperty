@@ -1,4 +1,6 @@
 from typing import TypeVar, Generic, Callable, Tuple
+import inspect
+
 
 T = TypeVar("T")
 
@@ -13,7 +15,7 @@ class _ClassProperty(property, Generic[T]):
         self.function = function
 
     def _is_validated(self, function: Callable[..., T]) -> bool:
-        return function.__code__.co_varnames == self.ARGUMENTS
+        return tuple(inspect.signature(function).parameters) == self.ARGUMENTS
 
     def __get__(self, _, owner=None) -> T:
         if owner:
