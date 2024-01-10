@@ -6,8 +6,6 @@ Decorator for enhancing class methods with property-like behavior.
 
 To utilize `class_property`, decorate a class method and pass `cls` as an argument. This allows the method to be accessed like a property, using either the class itself or its instances.
 
-Example:
-
 ```python
 from class_property import class_property
 
