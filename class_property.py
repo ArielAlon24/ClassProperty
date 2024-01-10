@@ -10,12 +10,9 @@ class _ClassProperty(property, Generic[T]):
 
     def __init__(self, function: Callable[..., T]) -> None:
         super().__init__()
-        if not self._is_validated(function):
-            raise ValueError("Unexpected arguments.")
+        if not tuple(inspect.signature(function).parameters) == self.PARAMETERS:
+            raise ValueError(f"Incorrect arguments, expected: {self.PARAMETERS}.")
         self.function = function
-
-    def _is_validated(self, function: Callable[..., T]) -> bool:
-        return tuple(inspect.signature(function).parameters) == self.PARAMETERS
 
     def __get__(self, _, owner=None) -> T:
         if owner:
